@@ -1,13 +1,17 @@
 const mongoose = require('mongoose')
-const Date = require('./Date')
+const Campaign = require('./Campaign')
 
 const UserSchema = new mongoose.Schema({
-    username: String,
+    username: {type:String,unique:true},
     password: String,
-    dates: [{
+    campaigns:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Campaign'}],
+    joined:[{
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Date'
-  }],
+      ref: 'Campaign'
+    }]
+    
 })
 
 module.exports = mongoose.model('User', UserSchema)

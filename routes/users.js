@@ -2,18 +2,18 @@ const express = require('express');
 const router = express.Router();
 
 const User = require('../models/User')
-const Date = require('../models/Date')
+const Campaign = require('../models/Campaign')
 
 
 
-router.post('/createDate/:id', async (req, res) => {
+router.post('/:id/createCamp', async (req, res) => {
   try {
-    console.log("Date post route")
+    console.log("Camp post route")
     console.log(req.body)
     console.log(req.params.id)
     const foundUser=await User.findById(req.params.id)
-    const newDate=await Date.create(req.body)
-    foundUser.dates.push(newDate)
+    const newCamp=await Campaign.create(req.body)
+    foundUser.campaigns.push(newCamp)
     foundUser.save()
     res.json({
       message:"done!",
@@ -24,21 +24,12 @@ router.post('/createDate/:id', async (req, res) => {
   }
 });
 
-router.get('/getall', async (req, res) => {
-  try {
-    const users = await User.find({})
-    res.json({
-      data:users
-    })
-  } catch(err) {
-    res.json({err})
-  }
-});
-
-
 router.post('/', async (req, res) => {
+  console.log("hit 1")
   try {
+    console.log("hit 2")
     const user = await User.create(req.body)
+    console.log("hit 3")
     res.json({user})
   } catch(err) {
     res.json({err})
@@ -53,12 +44,13 @@ router.delete('/', (req, res) => {
   return res.json({data: 'Received a DELETE HTTP method user'});
 });
 
-//going to fix needing to pass id with session
-router.delete('/delete/:id/:date', async(req, res) => {
+
+router.delete('/delete/:id/:camp', async(req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    user.dates.splice(req.params.date, 1);
+    user.campaigns.splice(req.params.camp, 1);
     user.save();
+    Campaign.findById(req.params.camp)
     console.log(user);
     res.json({ user, success: true });
   } catch (err) {
@@ -93,7 +85,7 @@ router.post('/login', async (req, res) => {
 })
 router.get('/view/:id', async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).populate("dates")
+    const user = await User.findById(req.params.id).populate("campaigns")
     
     res.json({
       user
@@ -102,12 +94,12 @@ router.get('/view/:id', async (req, res) => {
     res.json({err})
   }
 });
-router.get('/:id/getDates', async (req, res) => {
+router.get('/:id/getCamps', async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
-    const dates = await user.dates.find({})
+    const campaigns = await user.campaigns.find({})
     res.json({
-      dates
+      campaigns
     })
   } catch(err) {
     res.json({err})

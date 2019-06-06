@@ -4,17 +4,17 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
-require('dotenv').config();
 
+require('dotenv').config()
 require('./db/db')
 
-const apiRouter = require('./routes/api');
+
 const usersRouter = require('./routes/users');
-const yelp = require('yelp-fusion')
+
 const app = express();
 const session =require("express-session")
 app.use(cors({
-  origin: ['https://secure-savannah-81040.herokuapp.com', 'http://localhost:3000'],
+  origin: 'http://localhost:3000',
   credentials: true,
   optionSuccessStatus:200
 }));
@@ -29,7 +29,7 @@ app.use(cookieParser());
 // }))
 // app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/v1', apiRouter);
+
 app.use('/users', usersRouter);
 
 // app.listen(process.env.PORT, () => {
