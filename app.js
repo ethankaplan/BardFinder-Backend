@@ -10,6 +10,7 @@ require('./db/db')
 
 
 const usersRouter = require('./routes/users');
+const campaignsRouter = require('./routes/campaigns');
 
 const app = express();
 const session =require("express-session")
@@ -31,6 +32,7 @@ app.use(cookieParser());
 
 
 app.use('/users', usersRouter);
+app.use('/campaigns', campaignsRouter);
 
 // app.listen(process.env.PORT, () => {
 //   console.log(`listening on port ${process.env.PORT}`);

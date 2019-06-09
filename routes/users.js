@@ -6,23 +6,7 @@ const Campaign = require('../models/Campaign')
 
 
 
-router.post('/:id/createCamp', async (req, res) => {
-  try {
-    console.log("Camp post route")
-    console.log(req.body)
-    console.log(req.params.id)
-    const foundUser=await User.findById(req.params.id)
-    const newCamp=await Campaign.create(req.body)
-    foundUser.campaigns.push(newCamp)
-    foundUser.save()
-    res.json({
-      message:"done!",
-      status:200
-    })
-  } catch(err) {
-    res.json({err})
-  }
-});
+
 
 router.post('/', async (req, res) => {
   console.log("hit 1")
@@ -39,6 +23,7 @@ router.post('/', async (req, res) => {
 router.put('/', (req, res) => {
   return res.json({data: 'Received a PUT HTTP method user'});
 });
+
 
 router.delete('/', (req, res) => {
   return res.json({data: 'Received a DELETE HTTP method user'});
@@ -75,6 +60,7 @@ router.post('/login', async (req, res) => {
   console.log('hit')
   try {
     const foundUser = await User.findOne({username: req.body.username})
+    console.log(foundUser)
     res.json({
       user: foundUser,
       success: foundUser? true : false
@@ -85,7 +71,7 @@ router.post('/login', async (req, res) => {
 })
 router.get('/view/:id', async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).populate("campaigns")
+    const user = await User.findById(req.params.id)
     
     res.json({
       user
@@ -104,6 +90,29 @@ router.get('/:id/getCamps', async (req, res) => {
   } catch(err) {
     res.json({err})
   }
+});
+
+router.get('/:id/getJoined', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+    const campaigns = await user.joined.find({})
+    res.json({
+      campaigns
+    })
+  } catch(err) {
+    res.json({err})
+  }
+});
+
+router.get('/',async(req,res)=>{
+  try{
+  const users = await User.find({})
+  res.json({
+    users
+  })
+} catch(err) {
+  res.json({err})
+}
 });
 
 
