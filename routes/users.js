@@ -82,7 +82,7 @@ router.get('/view/:id', async (req, res) => {
 });
 router.get('/:id/getCamps', async (req, res) => {
   try {
-    const user = await User.findById(req.params.id)
+    const user = await User.findById(req.params.id).populate("campaigns")
     console.log(user.campaigns)
     const campaigns = await user.campaigns
     
@@ -96,7 +96,7 @@ router.get('/:id/getCamps', async (req, res) => {
 
 router.get('/:id/getJoined', async (req, res) => {
   try {
-    const user = await User.findById(req.params.id)
+    const user = await User.findById(req.params.id).populate("joined")
     const campaigns = await user.joined.find({})
     res.json({
       campaigns

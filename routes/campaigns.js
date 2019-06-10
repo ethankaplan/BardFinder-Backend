@@ -8,6 +8,7 @@ const Campaign = require('../models/Campaign')
 router.get('/view/:id', async (req, res) => {
     try {
       const campaign = await Campaign.findById(req.params.id).populate("campaigns")
+      .populate("owner")
       
       res.json({
         campaign
