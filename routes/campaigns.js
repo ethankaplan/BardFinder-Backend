@@ -33,7 +33,7 @@ router.delete('/:id/:owner', async(req,res)=>{
     }
 })
 
-router.put('/:id', async(req,res)=>{
+router.put('/e/:id', async(req,res)=>{
                              
         try {
             console.log(req.body)
@@ -87,7 +87,7 @@ router.put('/:id', async(req,res)=>{
 
     router.get('/:id', async (req,res)=>{
         try{
-            const campaign = await Campaign.findById(req.params.id)
+            const campaign = await Campaign.findById(req.params.id).populate("owner")
             
             res.json({
                 campaign
