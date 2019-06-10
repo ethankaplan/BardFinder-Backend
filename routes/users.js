@@ -83,7 +83,9 @@ router.get('/view/:id', async (req, res) => {
 router.get('/:id/getCamps', async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
-    const campaigns = await user.campaigns.find({})
+    console.log(user.campaigns)
+    const campaigns = await user.campaigns
+    
     res.json({
       campaigns
     })
