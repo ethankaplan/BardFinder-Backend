@@ -17,12 +17,10 @@ router.get('/view/:id', async (req, res) => {
     }
   });
 
-  router.post('/createCamp/:id', async (req, res) => {
+  router.post('/createCamp/:userid', async (req, res) => {
     try {
       console.log("Camp post route")
-      console.log(req.body)
-      console.log(req.params.id)
-      const foundUser=await User.findById(req.params.id)
+      const foundUser=await User.findById(req.params.userid)
       console.log(req.body)
       const newCamp=await Campaign.create(req.body)
       console.log(foundUser)
@@ -46,6 +44,7 @@ router.get('/view/:id', async (req, res) => {
     }catch(err){
         res.json({err})
     }})
+
     router.get('/:id', async (req,res)=>{
         try{
             const campaign = await Campaign.findById(req.params.id).populate("owner")
@@ -70,8 +69,10 @@ router.get('/view/:id', async (req, res) => {
         foundUser.campaigns.push(newCamp)
         foundUser.save()
         res.json({
-          message:"done!",
-          status:200
+            theid:newCamp._id,
+            message:"done!",
+          status:200,
+          
         })
       } catch(err) {
         res.json({err})

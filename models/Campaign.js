@@ -2,13 +2,17 @@ const mongoose = require('mongoose')
 const User = require('./User')
 
 const CampaignSchema = new mongoose.Schema({
-    name:String,
+    name:{type:String,required:true},
     story:String,
-    characters: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        idea:String
-    }],
+    characters: [
+        {
+            user:{
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User'
+            },
+            idea:String
+        }
+],
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

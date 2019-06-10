@@ -9,11 +9,11 @@ const Campaign = require('../models/Campaign')
 
 
 router.post('/', async (req, res) => {
-  console.log("hit 1")
+  
   try {
-    console.log("hit 2")
+    console.log(req.body)
     const user = await User.create(req.body)
-    console.log("hit 3")
+    
     res.json({user})
   } catch(err) {
     res.json({err})
