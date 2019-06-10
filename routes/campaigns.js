@@ -23,9 +23,10 @@ router.get('/view/:id', async (req, res) => {
       console.log(req.body)
       console.log(req.params.id)
       const foundUser=await User.findById(req.params.id)
+      console.log(req.body)
       const newCamp=await Campaign.create(req.body)
-      foundUser.campaigns.push(newCamp)
-      foundUser.save()
+      console.log(foundUser)
+      foundUser.campaigns.push(newCamp).save()
       res.json({
         message:"done!",
         status:200
@@ -48,6 +49,7 @@ router.get('/view/:id', async (req, res) => {
     router.get('/:id', async (req,res)=>{
         try{
             const campaign = await Campaign.findById(req.params.id).populate("owner")
+            .populate("character")
             res.json({
                 campaign
             })
@@ -59,10 +61,39 @@ router.get('/view/:id', async (req, res) => {
   router.post('/', async (req, res) => {
     
     try {
+        console.log("Camp post route")
+        console.log(req.body)
+        
+        const foundUser=await User.findById(req.body.owner)
+        const newCamp=await Campaign.create(req.body)
+        console.log(foundUser)
+        foundUser.campaigns.push(newCamp)
+        foundUser.save()
+        res.json({
+          message:"done!",
+          status:200
+        })
+      } catch(err) {
+        res.json({err})
+      }
+    });
+
+  router.post('/:id/newChar/', async (req, res) => {
     
-      const camp = await Campaign.create(req.body)
+    try {
+        console.log(req.body)
+        const campaign = await Campaign.findById(req.params.id)
+        const user= await User.findById(req.body.User._id)
+
+        campaign.characters.push({
+            User:user,
+            idea:req.body.idea
+        }).save()
     
-      res.json({camp})
+        res.json({
+            message:"done!",
+            status:200
+          })
     } catch(err) {
       res.json({err})
     }
