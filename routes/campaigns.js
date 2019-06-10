@@ -85,12 +85,13 @@ router.get('/view/:id', async (req, res) => {
     try {
         console.log(req.body)
         const campaign = await Campaign.findById(req.params.id)
-        const user= await User.findById(req.body.User._id)
-
+        const user= await User.findById(req.body.user)
+        console.log(user)
         campaign.characters.push({
-            User:user,
+            user,
             idea:req.body.idea
-        }).save()
+        })
+        campaign.save()
     
         res.json({
             message:"done!",
