@@ -11,7 +11,7 @@ const Campaign = require('../models/Campaign')
 router.post('/', async (req, res) => {
   
   try {
-    console.log(req.body)
+
     const user = await User.create(req.body)
     
     res.json({user})
@@ -36,7 +36,7 @@ router.delete('/delete/:id/:camp', async(req, res) => {
     user.campaigns.splice(req.params.camp, 1);
     user.save();
     Campaign.findById(req.params.camp)
-    console.log(user);
+
     res.json({ user, success: true });
   } catch (err) {
     console.log(err);
@@ -57,10 +57,10 @@ router.get('/logout', (req, res) => {
  })
 
 router.post('/login', async (req, res) => {
-  console.log('hit')
+
   try {
     const foundUser = await User.findOne({username: req.body.username})
-    console.log(foundUser)
+
     res.json({
       user: foundUser,
       success: foundUser? true : false
@@ -83,7 +83,7 @@ router.get('/view/:id', async (req, res) => {
 router.get('/:id/getCamps', async (req, res) => {
   try {
     const user = await User.findById(req.params.id).populate("campaigns")
-    console.log(user.campaigns)
+
     const campaigns = await user.campaigns
     
     res.json({

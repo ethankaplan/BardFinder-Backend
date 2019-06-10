@@ -36,7 +36,7 @@ router.delete('/:id/:owner', async(req,res)=>{
 router.put('/e/:id', async(req,res)=>{
                              
         try {
-            console.log(req.body)
+
             const updateCamp = await Campaign.findByIdAndUpdate(req.params.id, req.body, {new:true})
             
             updateCamp.story = req.body
@@ -88,6 +88,8 @@ router.put('/e/:id', async(req,res)=>{
     router.get('/:id', async (req,res)=>{
         try{
             const campaign = await Campaign.findById(req.params.id).populate("owner")
+            .populate("characters.user")
+            console.log(campaign)
             
             res.json({
                 campaign
