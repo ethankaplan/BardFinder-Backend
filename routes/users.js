@@ -97,7 +97,7 @@ router.get('/:id/getCamps', async (req, res) => {
 router.get('/:id/getJoined', async (req, res) => {
   try {
     const user = await User.findById(req.params.id).populate("joined")
-    const campaigns = await user.joined.find({})
+    const campaigns = await user.joined
     res.json({
       campaigns
     })
