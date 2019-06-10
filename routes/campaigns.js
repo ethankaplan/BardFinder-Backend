@@ -33,6 +33,30 @@ router.delete('/:id/:owner', async(req,res)=>{
     }
 })
 
+router.put('/:id', async(req,res)=>{
+                             
+        try {
+            console.log(req.body)
+            const updateCamp = await Campaign.findByIdAndUpdate(req.params.id, req.body, {new:true})
+            
+            updateCamp.story = req.body
+                updateCamp.save();
+             
+            res.json({
+                campaign: updateCamp,
+                status: 200
+            })
+        } catch (error) {
+            res.json({
+                error: error
+            })
+        }
+
+
+    })
+
+
+
   router.post('/createCamp/:userid', async (req, res) => {
     try {
       
