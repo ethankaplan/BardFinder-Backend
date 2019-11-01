@@ -15,7 +15,7 @@
     "express": "~4.16.0",
     "express-session": "^1.16.1",
     "http-errors": "~1.6.2",
-    "mongoose": "^5.5.7",
+    "mongoose": "^5.7.5",
     "morgan": "~1.9.0",
     "session": "^0.1.0",
     "yelp-fusion": "^3.0.0"
